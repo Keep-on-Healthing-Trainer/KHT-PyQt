@@ -1,8 +1,12 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel
+import sys, qrcode, requests
+from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import Qt
 from PyQt5.uic import loadUi
+
+url = {url/exercise/qr}
+response = requests.get(url)
+QR = qrcode.make(response.text)
+QR.save({png})
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -11,10 +15,8 @@ class MainWindow(QMainWindow):
         loadUi("QR_Page_UI.ui", self)
         self.setWindowTitle("QR")
 
-        pixmap = QPixmap("home.jpg")
+        pixmap = QPixmap("QR.png")
         self.imageLabel.setPixmap(pixmap)
-        # self.imageLabel = QLabel(self)
-        # self.imageLabel.setAlignment(Qt.AlignCenter)
 
 
 if __name__ == "__main__":
