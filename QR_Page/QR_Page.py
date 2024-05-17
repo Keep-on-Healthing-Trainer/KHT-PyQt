@@ -5,8 +5,17 @@ from PyQt5.uic import loadUi
 
 url = {url/exercise/qr}
 response = requests.get(url)
-QR = qrcode.make(response.text)
-QR.save({png})
+qr = qrcode.QRCode(
+    version = 1,
+    error_correction = qrcode.constants.ERROR_CORRECT_L,
+    box_size = 8,
+    border = 4,
+)
+qr.add_data(response.text)
+qr.make(fit = True)
+
+img = qr.make_image(fill_color="black", back_color="white")
+img.save({png})
 
 class MainWindow(QMainWindow):
     def __init__(self):
