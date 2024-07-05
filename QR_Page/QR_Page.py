@@ -19,6 +19,7 @@ img.save({png})
 
 class MainWindow(QMainWindow):
     def __init__(self):
+        super().__init__()
         super(MainWindow, self).__init__()
 
         loadUi("QR_Page_UI.ui", self)
