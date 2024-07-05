@@ -2,23 +2,14 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 import requests
+
 url = {url/exercise/uuid}
+
 data = {
-    "count": 13
-}
-headers = {
-    "Content-Type": "application/json",
-    "Authorization": "Bearer {token}"
+    "count": {count}
 }
 
-print(url)
-print(headers)
-print(data)
-
-response = requests.post(url, headers=headers, json=data)
-print(response.text)
-
-js = response.json
+response = requests.post(url, json=data)
 
 form_class = uic.loadUiType("Main_Page_UI.ui")[0]
 
