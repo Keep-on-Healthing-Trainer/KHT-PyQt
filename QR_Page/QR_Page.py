@@ -1,10 +1,9 @@
 import sys, qrcode, requests, asyncio, websockets
-import websocket, rel
-from websocket import create_connection
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtGui import QPixmap
 from PyQt5.uic import loadUi
 from urllib.parse import urlparse, parse_qs
+from json import dumps
 
 # url parsing
 def get_query_string(url):
@@ -31,16 +30,20 @@ img.save({png})
 
 # sessionId
 parsingData = get_query_string(response.text)
+print(parsingData)
+
 sessionId = parsingData['sessionId'][0]
 
 async def connect():
-    async with websockets.connect({base_url/exercise}) as websocket:
+    global sessionId
+    uri = {base_url/exercise}
+    async with websockets.connect(uri) as websocket:
        data = {
            "messageType": "ENTER",
-           "sessionId": sessionId,
+           "sessionId": {sessionId},
            "senderId": {GUI_UUID}
        }
-       await websocket.send(data)
+       await websocket.send(dumps(data))
        websocket_response = await websocket.recv()
        print(websocket_response)
 
@@ -59,6 +62,5 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     mainWindow = MainWindow()
     mainWindow.show()
-    asyncio.get_event_loop().run_until_complete(connect)
-    # asyncio.run(connect())
+    asyncio.get_event_loop().run_until_complete(connect())
     sys.exit(app.exec_())
