@@ -15,7 +15,7 @@ def get_query_string(url):
     return parse_string
 
 # qr
-url = {url}
+url = {base_url/exercise/qr}
 response = requests.get(url)
 qr = qrcode.QRCode(
     version = 1,
@@ -31,22 +31,18 @@ img.save({png})
 
 # sessionId
 parsingData = get_query_string(response.text)
-print(parsingData)
-
 sessionId = parsingData['sessionId'][0]
-print(sessionId)
 
-#async def connect():
-#    async with websockets.connect({url}) as websocket:
-#        data = {
-#            "messageType": "ENTER",
-#            "sessionId": {sessionId},
-#            "senderId": {senderId}
-#        }
-#        await websocket.send(data)
-#        await websocket.send("hello")
-#        websocket_response = await websocket.recv()
-#        print(websocket_response)
+async def connect():
+    async with websockets.connect({base_url/exercise}) as websocket:
+       data = {
+           "messageType": "ENTER",
+           "sessionId": sessionId,
+           "senderId": {GUI_UUID}
+       }
+       await websocket.send(data)
+       websocket_response = await websocket.recv()
+       print(websocket_response)
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -63,14 +59,6 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     mainWindow = MainWindow()
     mainWindow.show()
-
-    ws = websocket.create_connection({url})
-    ws.recv()
-    print("Sending 'Hello, World'...")
-    ws.send("Hello, World")
-    print("Sent")
-    print("Receiving...")
-    result = ws.recv()
-    ws.close()
-    # asyncio.get_event_loop().run_until_complete(connect())
+    asyncio.get_event_loop().run_until_complete(connect)
+    # asyncio.run(connect())
     sys.exit(app.exec_())
