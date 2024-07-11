@@ -4,8 +4,6 @@ from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtWidgets import *
 from PyQt5 import uic, QtGui
 
-form_class = uic.loadUiType("CountDown_Page_UI.ui")[0]
-
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -16,7 +14,7 @@ class MainWindow(QMainWindow):
         self.count = 3
 
         self.label = QLabel(self)
-        self.label.setGeometry(710, 230, 500, 500)
+        self.label.setGeometry(580, 230, 800, 500)
         self.label.setAlignment(Qt.AlignCenter)
         self.label.setText(str(self.count))
         self.label.setFont(QtGui.QFont("Roboto", 200))
@@ -35,8 +33,9 @@ class MainWindow(QMainWindow):
         self.count -= 1
         self.label.setText(str(self.count))
         if self.count == 0:
+            self.label.setText('Start!')
             self.timer.stop()
-            self.close()
+            # self.close()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
