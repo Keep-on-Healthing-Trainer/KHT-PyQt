@@ -19,14 +19,20 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(255, 255, 255);</string>
+  </property>
   <widget class="QLabel" name="imageLabel">
    <property name="geometry">
     <rect>
-     <x>792</x>
-     <y>300</y>
-     <width>350</width>
-     <height>350</height>
+     <x>790</x>
+     <y>310</y>
+     <width>330</width>
+     <height>330</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-color: rgb(228, 228, 228);</string>
    </property>
    <property name="text">
     <string>TextLabel</string>
@@ -36,7 +42,7 @@
    <property name="geometry">
     <rect>
      <x>760</x>
-     <y>660</y>
+     <y>659</y>
      <width>700</width>
      <height>35</height>
     </rect>
@@ -49,7 +55,7 @@
    </property>
    <property name="font">
     <font>
-     <family>Roboto</family>
+     <family>맑은 고딕</family>
      <pointsize>14</pointsize>
      <weight>75</weight>
      <bold>true</bold>
@@ -82,7 +88,7 @@
    </property>
    <property name="font">
     <font>
-     <family>Roboto</family>
+     <family>맑은 고딕</family>
      <pointsize>14</pointsize>
      <weight>75</weight>
      <bold>true</bold>
