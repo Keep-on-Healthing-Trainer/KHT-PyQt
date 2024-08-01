@@ -55,7 +55,14 @@ class MainWindow(QMainWindow):
         loadUi("QR_Page_UI.ui", self)
         self.setWindowTitle("QR")
 
-        pixmap = QPixmap("QR.png")
+        self.imageLabel.setStyleSheet(
+            "border-style: solid;"
+            "border-width: 2px;"
+            "border-color: #E4E4E4;"
+            "border-radius: 30px")
+
+        pixmap = QPixmap("QR.png").scaled(
+            330, 330)
         self.imageLabel.setPixmap(pixmap)
 
 if __name__ == "__main__":
