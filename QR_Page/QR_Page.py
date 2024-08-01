@@ -1,9 +1,10 @@
-import sys, qrcode, requests, asyncio, websockets
-from PyQt5.QtWidgets import QApplication, QMainWindow
-from PyQt5.QtGui import QPixmap
+from json import dumps
+from PyQt5.QtCore import Qt
 from PyQt5.uic import loadUi
 from urllib.parse import urlparse, parse_qs
-from json import dumps
+import sys, qrcode, requests, asyncio, websockets
+from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtGui import QPixmap, QPainter, QBrush, QPainterPath
 
 # url parsing
 def get_query_string(url):
@@ -47,6 +48,24 @@ async def connect():
        websocket_response = await websocket.recv()
        print(websocket_response)
 
+def round_image(self, pixmap, radius):
+    size = pixmap.size()
+
+    rounded = QPixmap(size)
+    rounded.fill(Qt.transparent)
+
+    painter = QPainter(rounded)
+    painter.setRenderHint(QPainter.Antialiasing)
+    painter.setBrush(QBrush(pixmap))
+    painter.setPen(Qt.NoPen)
+
+    path = QPainterPath()
+    path.addRoundedRect(0, 0, size.width(), size.height(), radius, radius)
+    painter.drawPath(path)
+
+    painter.end()
+    return rounded
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -59,11 +78,11 @@ class MainWindow(QMainWindow):
             "border-style: solid;"
             "border-width: 2px;"
             "border-color: #E4E4E4;"
-            "border-radius: 30px")
+            "border-radius: 30px;")
 
-        pixmap = QPixmap("QR.png").scaled(
-            330, 330)
-        self.imageLabel.setPixmap(pixmap)
+        pixmap = QPixmap("QR.png").scaled(330, 330)
+        rounded_pixmap = round_image(self, pixmap, 40)
+        self.imageLabel.setPixmap(rounded_pixmap)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
