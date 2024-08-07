@@ -1,7 +1,10 @@
 import sys
+from PyQt5 import QtWidgets, uic
 from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QLabel
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QPainter, QBrush, QPainterPath
+
+form_window = uic.loadUiType("Exercise_Page_UI.ui")[0]
 
 class FocusLabel(QLabel):
     def __init__(self, text):
@@ -34,9 +37,28 @@ class FocusLabel(QLabel):
         """)
         super().focusOutEvent(event)
 
-class DirectionalFocusWidget(QWidget):
+def round_image(self, pixmap, radius):
+    size = pixmap.size()
+
+    rounded = QPixmap(size)
+    rounded.fill(Qt.transparent)
+
+    painter = QPainter(rounded)
+    painter.setRenderHint(QPainter.Antialiasing)
+    painter.setBrush(QBrush(pixmap))
+    painter.setPen(Qt.NoPen)
+
+    path = QPainterPath()
+    path.addRoundedRect(0, 0, size.width(), size.height(), radius, radius)
+    painter.drawPath(path)
+
+    painter.end()
+    return rounded
+
+class DirectionalFocusWidget(QWidget, form_window):
     def __init__(self):
         super().__init__()
+        self.setupUi(self)
         self.setWindowTitle('Directional Focus Widget')
         self.setGeometry(0, 0, 1920, 1080)
         self.setStyleSheet("background-color: white;")
@@ -52,14 +74,19 @@ class DirectionalFocusWidget(QWidget):
         self.label3.setFocusPolicy(Qt.StrongFocus)
 
         layout.addWidget(self.label1)
-        pixmap = QPixmap("situp.jpg")
-        self.label1.setPixmap(pixmap)
+        pixmap = QPixmap("situp.jpg").scaled(300, 300)
+        rounded_pixmap = round_image(self, pixmap, 40)
+        self.label1.setPixmap(rounded_pixmap)
+
         layout.addWidget(self.label2)
-        pixmap = QPixmap("squat.png")
-        self.label2.setPixmap(pixmap)
+        pixmap = QPixmap("squat.png").scaled(300, 300)
+        rounded_pixmap = round_image(self, pixmap, 40)
+        self.label2.setPixmap(rounded_pixmap)
+
         layout.addWidget(self.label3)
-        pixmap = QPixmap("pushup.jpg")
-        self.label3.setPixmap(pixmap)
+        pixmap = QPixmap("pushup.jpg").scaled(300, 300)
+        rounded_pixmap = round_image(self, pixmap, 40)
+        self.label3.setPixmap(rounded_pixmap)
 
         self.setLayout(layout)
 
