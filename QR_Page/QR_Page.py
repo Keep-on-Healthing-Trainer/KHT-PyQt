@@ -48,6 +48,7 @@ async def connect():
        websocket_response = await websocket.recv()
        print(websocket_response)
 
+
 def round_image(self, pixmap, radius):
     size = pixmap.size()
 
@@ -80,7 +81,7 @@ class MainWindow(QMainWindow):
             "border-color: #E4E4E4;"
             "border-radius: 30px;")
 
-        pixmap = QPixmap("QR.png").scaled(330, 330)
+        pixmap = QPixmap("QR.png").scaled(370, 370)
         rounded_pixmap = round_image(self, pixmap, 40)
         self.imageLabel.setPixmap(rounded_pixmap)
 
